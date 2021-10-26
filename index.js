@@ -1,6 +1,16 @@
 // Imports
-const fs = require('fs'),
-PDFParser = require('pdf2json');
+const fs = require('fs');
+const PDFParser = require('pdf2json');
+const express = require('express');
+const app = express();
+
+app.listen(3000, () => {
+    console.log('Hello world');
+})
+
+app.get('/test', (req, res) => {
+    res.status(200).send({msg: 'Hello'});
+})
 
 const pdfParser = new PDFParser();
 
@@ -19,11 +29,15 @@ pdfParser.on('pdfParser_dataReady', data => {
         //     }
         // }
     // }
-    fs.writeFile('test.json', data, () => {
+    // fs.writeFile('test.json', data, () => {
 
-    });
+    // });
 });
 
-pdfParser.loadPDF('test.pdf');
+// pdfParser.loadPDF('test.pdf');
+
+fs.readFile('test.json', (data, err) => {
+    console.log(data);
+})
 
 
