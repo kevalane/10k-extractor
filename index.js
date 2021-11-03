@@ -1,11 +1,17 @@
 // Imports
 const fs = require('fs');
 const dotenv = require('dotenv');
-dotenv.config();
 const PDFParser = require('pdf2json');
-const pdfParser = new PDFParser();
 const express = require('express');
+
+// Initializations
 const app = express();
+const pdfParser = new PDFParser();
+dotenv.config();
+
+// PDF Parser event handlers
+pdfParser.on('pdfParser_dataError', err => console.error(err.parserError));
+pdfParser.on('pdfParser_dataReady', data => console.log('Data is ready!'));
 
 app.listen(process.env.PORT, () => {
     console.log('Hello world');
@@ -49,19 +55,9 @@ app.get('/test', (req, res) => {
             }
         }
     }
-    // console.log(magicIndex);
-    // console.log(data['Pages'][magicIndex[0]]['Texts'][magicIndex[1] + 20]['R'][magicIndex[2]]['T']);
     console.log(decodeURIComponent(data['Pages'][magicIndex[0]]['Texts'][magicIndex[1] + 20]['R'][magicIndex[2]]['T']))
     res.status(200).send(data);
 })
-
-pdfParser.on('pdfParser_dataError', err => console.error(err.parserError));
-pdfParser.on('pdfParser_dataReady', data => {
-    // console.log(data);
-    // console.log(data['Pages'][0]['Texts'][0]['R'][0]['T']);
-    
-    // fs.writeFile('test.json', data, () => {});
-});
 
 
 
