@@ -1,6 +1,7 @@
 // Imports
 const fs = require('fs');
 const dotenv = require('dotenv');
+dotenv.config();
 const PDFParser = require('pdf2json');
 const pdfParser = new PDFParser();
 const express = require('express');
@@ -9,6 +10,21 @@ const app = express();
 app.listen(process.env.PORT, () => {
     console.log('Hello world');
 });
+
+app.get('/what', (req, res) => {
+    let rawData = fs.readFileSync('test.json');
+    let data = JSON.parse(rawData);
+    for (let i = 0; i < data['Pages'].length; i++) {
+        for (let k = 0; k < data['Pages'][i]['Texts'].length; k++) {
+            for (let m = 0; m < data['Pages'][i]['Texts'][k]['R'].length; m++) {
+                if (data['Pages'][i]['Texts'][k]['R'][m]['T'].toLowerCase().includes('consolidated%20statements%20of%20operations')) {
+                    console.log(data['Pages'][i]['Texts'][k]['R'][m]['T']);
+                }
+            }
+        }
+    }
+    res.status(200).send({msg: 'Hello World'});
+})
 
 app.get('/test', (req, res) => {
     // pdfParser.loadPDF('test.pdf');
