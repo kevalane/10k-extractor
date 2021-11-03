@@ -1,12 +1,14 @@
 // Imports
 const fs = require('fs');
+const dotenv = require('dotenv');
 const PDFParser = require('pdf2json');
+const pdfParser = new PDFParser();
 const express = require('express');
 const app = express();
 
-app.listen(3000, () => {
+app.listen(process.env.PORT, () => {
     console.log('Hello world');
-})
+});
 
 app.get('/test', (req, res) => {
     // pdfParser.loadPDF('test.pdf');
@@ -22,7 +24,7 @@ app.get('/test', (req, res) => {
                 if (data['Pages'][i]['Texts'][k]['R'][m]['T'].toLowerCase().includes('selected%20financial%20data')) {
                     loops++;
                     if (loops == 2) {
-                        console.log(data['Pages'][i]['Texts'][k]['R'][m]['T']);
+                        // console.log(data['Pages'][i]['Texts'][k]['R'][m]['T']);
                         magicIndex[0] = i;
                         magicIndex[1] = k;
                         magicIndex[2] = m;
@@ -31,12 +33,11 @@ app.get('/test', (req, res) => {
             }
         }
     }
-    console.log(magicIndex);
-    console.log(data['Pages'][magicIndex[0]]['Texts'][magicIndex[1] + 20]['R'][magicIndex[2]]['T']);
+    // console.log(magicIndex);
+    // console.log(data['Pages'][magicIndex[0]]['Texts'][magicIndex[1] + 20]['R'][magicIndex[2]]['T']);
+    console.log(decodeURIComponent(data['Pages'][magicIndex[0]]['Texts'][magicIndex[1] + 20]['R'][magicIndex[2]]['T']))
     res.status(200).send(data);
 })
-
-const pdfParser = new PDFParser();
 
 pdfParser.on('pdfParser_dataError', err => console.error(err.parserError));
 pdfParser.on('pdfParser_dataReady', data => {
