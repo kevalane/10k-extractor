@@ -20,15 +20,22 @@ app.listen(process.env.PORT, () => {
 app.get('/what', (req, res) => {
     let rawData = fs.readFileSync('test.json');
     let data = JSON.parse(rawData);
+    let magic = [];
     for (let i = 0; i < data['Pages'].length; i++) {
         for (let k = 0; k < data['Pages'][i]['Texts'].length; k++) {
             for (let m = 0; m < data['Pages'][i]['Texts'][k]['R'].length; m++) {
                 if (data['Pages'][i]['Texts'][k]['R'][m]['T'].toLowerCase().includes('consolidated%20statements%20of%20operations')) {
-                    console.log(data['Pages'][i]['Texts'][k]['R'][m]['T']);
+                    // console.log(data['Pages'][i]['Texts'][k]['R'][m]['T']);
+                    // console.log('i: ' + i + ' k: ' + k + ' m: ' + m);
+                    magic[0] = i;
+                    magic[1] = k;
+                    magic[2] = m;
                 }
             }
         }
     }
+    // console.log(data['Pages'][magic[0]]['Texts'][magic[1]]['R'][magic[2]]['T'])
+    console.log(data['Pages'][33]['Texts'][1+11]['R'][0]['T'])
     res.status(200).send({msg: 'Hello World'});
 })
 
