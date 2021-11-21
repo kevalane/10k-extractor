@@ -37,7 +37,7 @@ app.get('/what', (req, res) => {
     // console.log(data['Pages'][magic[0]]['Texts'][magic[1]]['R'][magic[2]]['T'])
     // TODO: Find the page where financial statements are, then
     // TODO2: Loop over every single number, map it, and send back as reasonable data.
-    console.log(decodeURIComponent(data['Pages'][33]['Texts'][1+15]['R'][0]['T']));
+    console.log(decodeURIComponent(data['Pages'][33]['Texts'][1+14]['R'][0]['T']));
     res.status(200).send({msg: 'Hello World'});
 })
 
